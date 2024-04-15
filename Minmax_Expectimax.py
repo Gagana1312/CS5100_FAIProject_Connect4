@@ -1,9 +1,8 @@
-# algorithms.py
-
-from Board import get_valid_moves, make_move, goal_test
+# # algorithms.py
+from Board import available_moves, execute_move, check_victory
 
 # Board spaces' weights for AI
-move_matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0,
+scoring_grid = [0, 0, 0, 0, 0, 0, 0, 0, 0,
                0, 0, 10, 20, 30, 20, 10, 0, 0,
                0, 10, 20, 30, 40, 30, 20, 10, 0,
                0, 20, 30, 40, 50, 40, 30, 20, 0,
@@ -12,48 +11,54 @@ move_matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0,
                0, 0, 10, 20, 30, 20, 10, 0, 0,
                0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-funcs = {1: max, -1: min}
-
-def evaluate_board(board):
-    score = 0
-    for m in range(11, 61):
-        if board[m] == "+":
-            score += move_matrix[m]
-        elif board[m] == "x":
-            score -= move_matrix[m]
-    return score
+# Algorithm.py
+from Board import available_moves, execute_move, check_victory
 
 def minimax(board, player, depth):
-    cols = get_valid_moves(board)
-    if len(cols) == 0:
-        return 0, -5, -5
+    decision_funcs = {1: max, -1: min}
+
+    moves = available_moves(board)
+    if not moves:
+        return 0, -1, -1
     if depth == 0:
-        return evaluate_board(board), -5, -5
-    moves = []
-    for c in cols:
-        nm, index = make_move(board, player, c)
-        if goal_test(nm, player, index):
-            moves.append((100000 * player, index, nm))
-        else:
-            count = minimax(nm, -player, depth-1)[0]
-            moves.append((count, index, nm))
-    return funcs[player](moves)
+        return sum(scoring_grid[m] if board[m] == "O" else -scoring_grid[m] for m in range(11, 61)), -1, -1
+    results = []
+    for move in moves:
+        new_board, pos = execute_move(board, player, move)
+        if check_victory(new_board, player, pos):
+            return 100000 * player, pos, new_board
+        score = minimax(new_board, -player, depth - 1)[0]
+        results.append((score, pos, new_board))
+    return decision_funcs[player](results)
 
 def expectimax(board, player, depth):
-    cols = get_valid_moves(board)
-    if len(cols) == 0:
-        return 0, -5, -5
-    if depth == 0:
-        return evaluate_board(board), -5, -5
-    moves = []
-    for c in cols:
-        nm, index = make_move(board, player, c)
-        if goal_test(nm, player, index):
-            moves.append((100000 * player, index, nm))
-        else:
-            count = expectimax(nm, -player, depth-1)[0]
-            if player == -1:
-                moves.append((count, index, nm))
-            else:
-                moves.append((count / len(cols), index, nm))  # Expectimax average for chance nodes
-    return funcs[player](moves)
+    if depth == 0 or not available_moves(board):
+        return evaluate_board(board), -1, board
+
+    best_value = float('-inf') if player == -1 else float('inf')
+    best_move = -1
+    best_board = None
+
+    for move in available_moves(board):
+        new_board, index = execute_move(board, player, move)
+        if check_victory(new_board, player, index):
+            return (100000 * player, index, new_board) if player == -1 else (-100000 * player, index, new_board)
+
+        score, _, _ = expectimax(new_board, -player, depth - 1)
+
+        if player == -1:  # Maximizing player
+            if score > best_value:
+                best_value = score
+                best_move = index
+                best_board = new_board
+        else:  # Minimizing player (chance node)
+            if score < best_value:
+                best_value = score
+                best_move = index
+                best_board = new_board
+
+    return best_value, best_move, best_board
+
+def evaluate_board(board):
+    player_symbols = {1: "O", -1: "x"}
+    return sum(scoring_grid[i] if board[i] == player_symbols[1] else -scoring_grid[i] if board[i] == player_symbols[-1] else 0 for i in range(11, 61))
