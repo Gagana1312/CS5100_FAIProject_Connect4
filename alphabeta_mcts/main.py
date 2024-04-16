@@ -5,6 +5,14 @@ def create_normal_board():
     return board
 
 def create_one_step_already_taken():
+    """
+       0 0 0 0 0 0 0
+       0 0 0 0 0 0 0
+       0 0 0 0 0 0 0
+       0 0 0 0 0 0 0
+       0 0 0 0 0 0 0
+       2 0 0 0 0 0 0
+    """
     board = [[0] * 7 for _ in range(6)]
     board[5][0] = 2
     return board
