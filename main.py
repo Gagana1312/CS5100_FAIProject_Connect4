@@ -52,6 +52,53 @@ def play_game(ai_depth, game_mode):
 
         turn += 1
         turn = turn % 2
+        
+def play_ai_vs_ai_game(ai1_depth, ai1_mode, ai2_depth, ai2_mode):
+    board = create_normal_board()
+    game_over = False
+    turn = 0  # 0 for AI1, 1 for AI2
 
-play_game(ai_depth=4, game_mode='minimax')  
+    while not game_over:
+        if turn == 0:  # AI1's turn
+            print(f"AI1 ({ai1_mode})'s turn...")
+            if ai1_mode == 'minimax':
+                col, _ = minimax(board, ai1_depth, -float('inf'), float('inf'), True)
+            elif ai1_mode == 'expectimax':
+                col, _ = expectimax(board, ai1_depth, True)
+
+            if col is not None and is_valid_location(board, col):
+                row = get_next_open_row(board, col)
+                drop_piece(board, row, col, 1)
+                print(f"AI1 has dropped a piece in column {col+1}")
+                if winning_move(board, 1):
+                    print(f"AI1 ({ai1_mode}) wins!")
+                    game_over = True
+            else:
+                print("No valid moves for AI1. It's a draw.")
+            print_board(board)
+
+        else:  # AI2's turn
+            print(f"AI2 ({ai2_mode})'s turn...")
+            if ai2_mode == 'minimax':
+                col, _ = minimax(board, ai2_depth, -float('inf'), float('inf'), True)
+            elif ai2_mode == 'expectimax':
+                col, _ = expectimax(board, ai2_depth, True)
+
+            if col is not None and is_valid_location(board, col):
+                row = get_next_open_row(board, col)
+                drop_piece(board, row, col, 2)
+                print(f"AI2 has dropped a piece in column {col+1}")
+                if winning_move(board, 2):
+                    print(f"AI2 ({ai2_mode}) wins!")
+                    game_over = True
+            else:
+                print("No valid moves for AI2. It's a draw.")
+            print_board(board)
+
+        turn = (turn + 1) % 2
+
+
+play_ai_vs_ai_game(ai1_depth=4, ai1_mode='minimax', ai2_depth=4, ai2_mode='expectimax')
+
+# play_game(ai_depth=4, game_mode='minimax')  
 #play_game(ai_depth=4, game_mode='expectimax') 
