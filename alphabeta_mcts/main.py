@@ -10,6 +10,14 @@ def create_one_step_already_taken():
     return board
 
 def create_board_biased_for_player_2():
+    """
+        0 0 0 0 0 0 0
+        0 0 0 0 0 0 0
+        0 0 0 0 0 0 0
+        0 0 2 2 2 0 0
+        0 0 1 2 1 0 0
+        0 1 2 1 1 0 0
+    """
     board = [[0] * 7 for _ in range(6)]
     board[5][1] = 1
     board[5][2] = 2
