@@ -25,9 +25,17 @@ def create_board_biased_for_player_2():
 
 
 if __name__ == "__main__":
-    player_combinations = [['MCTS', 'MCTS'], ['AB', 'AB'], ['AB', 'MCTS'], ['MCTS', 'AB']]
+    players = ['AB', 'MCTS', 'EXPECTIMAX', 'MINIMAX']
 
-    iterations = 10
+    player_combinations = []
+
+    for i in players:
+        for j in players:
+            if i != j:
+                player_combinations.append([i, j])
+                player_combinations.append([j, i])
+
+    iterations = 3
 
     all_results = []
 

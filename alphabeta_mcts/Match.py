@@ -1,6 +1,7 @@
 from GameState import GameState
 import AlphaBeta
 from MonteCarloTree import MCTSTree
+import Minmax_Expectimax
 
 class Match:
     def __init__(self, initial_board, player1, player2, first_player):
@@ -12,7 +13,9 @@ class Match:
 
         functions = {
             'AB': self.alpha_beta,
-            'MCTS': self.monte_carlo
+            'MCTS': self.monte_carlo,
+            'MINIMAX': self.minimax,
+            'EXPECTIMAX': self.expectimax
         }
 
         self.player_1_function = functions[self.player1]
@@ -28,6 +31,14 @@ class Match:
 
     def random_play(self, state):
         pass
+
+    def minimax(self, state):
+        col, _ = Minmax_Expectimax.minimax(state.board, 4, -float('inf'), float('inf'), True)
+        return col + 1
+
+    def expectimax(self, state):
+        col, _ = Minmax_Expectimax.expectimax(state.board, 4, True)
+        return col + 1
 
     def run(self, state):
         while not state.is_terminal_state():
