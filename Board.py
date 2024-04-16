@@ -12,4 +12,3 @@ def get_next_open_row(board, col):
 
 def drop_piece(board, row, col, piece):
     board[row][col] = piece
-
