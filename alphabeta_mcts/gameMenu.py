@@ -57,7 +57,7 @@ def main():
 
 
         difficulty_level = 1
-        if((player_choices[1] != 6 and player_choices[2] == 6) or (player_choices[1] == 6 and player_choices[2] != 6)):
+        if((player_choices[1] != 5 and player_choices[2] == 5) or (player_choices[1] == 5 and player_choices[2] != 5)):
             display_difficulty_menu()
             difficulty_level = get_difficulty_choice()
 
