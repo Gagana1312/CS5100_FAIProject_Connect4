@@ -56,14 +56,14 @@ class Match:
     def alpha_beta(self, state):
         choose = self.generate_difficulty_based_choice()
         if choose == 1:
-            print("Now making a bad decision")
+            print("******Now making a bad decision******")
             return random.choice(state.actions)
         return AlphaBeta.get_action(state, state.current_player_id)
 
     def monte_carlo(self, state):
         choose = self.generate_difficulty_based_choice()
         if choose == 1:
-            print("Now making a bad decision")
+            print("******Now making a bad decision******")
             return random.choice(state.actions)
         return MCTSTree(state).runMCTS(state.current_player_id, max_t=5)
 
@@ -73,7 +73,7 @@ class Match:
     def minimax(self, state):
         choose = self.generate_difficulty_based_choice()
         if choose == 1:
-            print("Now making a bad decision")
+            print("******Now making a bad decision******")
             return random.choice(state.actions)
         col, _ = Minmax_Expectimax.minimax(state.board, 4, -float('inf'), float('inf'), True)
         return col + 1
@@ -81,7 +81,7 @@ class Match:
     def expectimax(self, state):
         choose = self.generate_difficulty_based_choice()
         if choose == 1:
-            print("Now making a bad decision")
+            print("******Now making a bad decision******")
             return random.choice(state.actions)
         col, _ = Minmax_Expectimax.expectimax(state.board, 4, True)
         return col + 1
