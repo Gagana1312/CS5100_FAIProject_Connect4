@@ -1,7 +1,7 @@
 
 
 from Board import create_normal_board, is_valid_location, drop_piece, get_next_open_row
-from Minmax_Expectimax import winning_move, minimax, expectimax, evaluate_window,print_board
+from Minmax_Expectimax import winning_move, minimax, expectimax,print_board, evaluate_window
 
 def play_game(ai_depth, game_mode):
     board = create_normal_board()
@@ -33,7 +33,7 @@ def play_game(ai_depth, game_mode):
         else:
             if game_mode == 'minimax':
                 print("AI (Minimax) chance...")
-                col, minimax_score = minimax(board, ai_depth, -float('inf'), float('inf'), True)
+                col, minimax_score = minimax(board, ai_depth, True)
             elif game_mode == 'expectimax':
                 print("AI (Expectimax) chance...")
                 col, expectimax_score = expectimax(board, ai_depth, True)
@@ -62,7 +62,7 @@ def play_ai_vs_ai_game(ai1_depth, ai1_mode, ai2_depth, ai2_mode):
         if turn == 0:  # AI1's turn
             print(f"AI1 ({ai1_mode})'s turn...")
             if ai1_mode == 'minimax':
-                col, _ = minimax(board, ai1_depth, -float('inf'), float('inf'), True)
+                col, _ = minimax(board, ai1_depth, True)
             elif ai1_mode == 'expectimax':
                 col, _ = expectimax(board, ai1_depth, True)
 
@@ -80,7 +80,7 @@ def play_ai_vs_ai_game(ai1_depth, ai1_mode, ai2_depth, ai2_mode):
         else:  # AI2's turn
             print(f"AI2 ({ai2_mode})'s turn...")
             if ai2_mode == 'minimax':
-                col, _ = minimax(board, ai2_depth, -float('inf'), float('inf'), True)
+                col, _ = minimax(board, ai2_depth, True)
             elif ai2_mode == 'expectimax':
                 col, _ = expectimax(board, ai2_depth, True)
 
@@ -98,7 +98,25 @@ def play_ai_vs_ai_game(ai1_depth, ai1_mode, ai2_depth, ai2_mode):
         turn = (turn + 1) % 2
 
 
-play_ai_vs_ai_game(ai1_depth=4, ai1_mode='minimax', ai2_depth=4, ai2_mode='expectimax')
-
+# play_ai_vs_ai_game(ai1_depth=4, ai1_mode='minimax', ai2_depth=4, ai2_mode='expectimax')
 # play_game(ai_depth=4, game_mode='minimax')  
-#play_game(ai_depth=4, game_mode='expectimax') 
+# play_game(ai_depth=4, game_mode='expectimax') 
+
+def main():
+    print("Select the game mode:")
+    print("1. AI vs AI Game")
+    print("2. Single Player Game (Minimax)")
+    print("3. Single Player Game (Expectimax)")
+    option = input("Enter your choice (1, 2, or 3): ")
+
+    if option == '1':
+        play_ai_vs_ai_game(ai1_depth=4, ai1_mode='minimax', ai2_depth=4, ai2_mode='expectimax')
+    elif option == '2':
+        play_game(ai_depth=4, game_mode='minimax')
+    elif option == '3':
+        play_game(ai_depth=4, game_mode='expectimax')
+    else:
+        print("Invalid option. Please select 1, 2, or 3.")
+
+if __name__ == "__main__":
+    main()

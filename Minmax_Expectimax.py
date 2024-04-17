@@ -1,5 +1,6 @@
 
 from Board import is_valid_location,get_next_open_row,drop_piece
+import random
 
 def evaluate_window(window, piece):
     opp_piece = 1 if piece == 2 else 2
@@ -70,48 +71,42 @@ def winning_move(board, piece):
                 return True
     return False
 
-def minimax(board, depth, alpha, beta, maximizingPlayer):
+def minimax(board, depth, maximizingPlayer):
     valid_locations = [c for c in range(7) if is_valid_location(board, c)]
     is_terminal = winning_move(board, 1) or winning_move(board, 2) or len(valid_locations) == 0
     if depth == 0 or is_terminal:
         if is_terminal:
             if winning_move(board, 2):
-                return (None, float('inf'))
+                return (None, 1000000)
             elif winning_move(board, 1):
-                return (None, float('-inf'))
-            else:
+                return (None, -1000000)
+            else:  # Game is over, no more valid moves
                 return (None, 0)
-        else:
+        else:  # Depth is zero
             return (None, score_position(board, 2))
     if maximizingPlayer:
         value = float('-inf')
-        column = valid_locations[0]
+        column = random.choice(valid_locations)
         for col in valid_locations:
             row = get_next_open_row(board, col)
-            b_copy = [row[:] for row in board]
+            b_copy = [r[:] for r in board]
             drop_piece(b_copy, row, col, 2)
-            new_score = minimax(b_copy, depth-1, alpha, beta, False)[1]
+            new_score = minimax(b_copy, depth - 1, False)[1]
             if new_score > value:
                 value = new_score
                 column = col
-            alpha = max(alpha, value)
-            if alpha >= beta:
-                break
         return column, value
-    else:
+    else:  # Minimizing player
         value = float('inf')
-        column = valid_locations[0]
+        column = random.choice(valid_locations)
         for col in valid_locations:
             row = get_next_open_row(board, col)
-            b_copy = [row[:] for row in board]
+            b_copy = [r[:] for r in board]
             drop_piece(b_copy, row, col, 1)
-            new_score = minimax(b_copy, depth-1, alpha, beta, True)[1]
+            new_score = minimax(b_copy, depth - 1, True)[1]
             if new_score < value:
                 value = new_score
                 column = col
-            beta = min(beta, value)
-            if beta <= alpha:
-                break
         return column, value
 
 def expectimax(board, depth, maximizingPlayer):
