@@ -56,7 +56,7 @@ def main():
         print("Player 2 chose option", player_choices[2])
 
 
-        difficulty_level = 1
+        difficulty_level = None
         if((player_choices[1] != 5 and player_choices[2] == 5) or (player_choices[1] == 5 and player_choices[2] != 5)):
             display_difficulty_menu()
             difficulty_level = get_difficulty_choice()
@@ -64,7 +64,7 @@ def main():
         board = create_normal_board()
         player1 = options[player_choices[1]-1]
         player2 = options[player_choices[2]-1]
-        match = Match(board, player1, player2, first_player=1)
+        match = Match(board, player1, player2, first_player=1, difficulty=difficulty_level)
         normal_winner = match.winner
 
         item = {
