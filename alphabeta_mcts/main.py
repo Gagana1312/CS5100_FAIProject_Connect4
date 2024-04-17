@@ -159,9 +159,6 @@ if __name__ == "__main__":
             print(player2)
             print(player_stats[0])
             print(player_stats[1])
-            
-            print("Algo statssssssssssss")
-            print(algo_stats)
 
             board = create_one_step_already_taken()
             player1 = combination[0]
@@ -186,4 +183,8 @@ if __name__ == "__main__":
             results.append(item)
         all_results.append(results)
 
-    print(all_results)
+    print("Algo statssssssssssss")
+    print(algo_stats)
+
+    print("Player stats")
+    print(player_stats)
