@@ -62,8 +62,8 @@ def main():
             difficulty_level = get_difficulty_choice()
 
         board = create_normal_board()
-        player1 = options[player_choices[1]]
-        player2 = options[player_choices[2]]
+        player1 = options[player_choices[1]-1]
+        player2 = options[player_choices[2]-1]
         match = Match(board, player1, player2, first_player=1)
         normal_winner = match.winner
 
