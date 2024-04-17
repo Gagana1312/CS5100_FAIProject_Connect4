@@ -52,8 +52,78 @@ if __name__ == "__main__":
                 player_combinations.append([j, i])
 
     iterations = 3
-
     all_results = []
+    
+    player_stats = []
+    player_stats.append(
+        {
+            "AB": {
+                "wins": 0,
+                "losses": 0,
+                "draws": 0
+            },
+            "MCTS": {
+                "wins": 0,
+                "losses": 0,
+                "draws": 0
+            },
+            "EXPECTIMAX": {
+                "wins": 0,
+                "losses": 0,
+                "draws": 0
+            },
+            "MINIMAX": {
+                "wins": 0,
+                "losses": 0,
+                "draws": 0
+            }
+        }
+    )
+    player_stats.append({
+        "AB": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "MCTS": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "EXPECTIMAX": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "MINIMAX": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        }
+    })
+
+    algo_stats = {
+        "AB": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "MCTS": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "EXPECTIMAX": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        },
+        "MINIMAX": {
+            "wins": 0,
+            "losses": 0,
+            "draws": 0
+        }
+    }
 
     for iter in range(iterations):
         results = []
@@ -63,6 +133,35 @@ if __name__ == "__main__":
             player2 = combination[1]
             match = Match(board, player1, player2, first_player=1)
             normal_winner = match.winner
+
+            if normal_winner == 1:
+                player_stats[0][player1]["wins"] += 1
+                player_stats[1][player2]["losses"] += 1
+
+                algo_stats[player1]["wins"] += 1
+                algo_stats[player2]["losses"] += 1
+            elif normal_winner == 2:
+                player_stats[1][player2]["wins"] += 1
+                player_stats[0][player1]["losses"] += 1
+
+                algo_stats[player2]["wins"] += 1
+                algo_stats[player1]["losses"] += 1
+            elif normal_winner == 0:
+                player_stats[1][player2]["draws"] += 1
+                player_stats[0][player1]["draws"] += 1
+
+                algo_stats[player2]["draws"] += 1
+                algo_stats[player1]["draws"] += 1
+
+
+            print("player_statsssssssssss")
+            print(player1)
+            print(player2)
+            print(player_stats[0])
+            print(player_stats[1])
+            
+            print("Algo statssssssssssss")
+            print(algo_stats)
 
             board = create_one_step_already_taken()
             player1 = combination[0]
