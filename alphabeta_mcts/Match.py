@@ -75,7 +75,7 @@ class Match:
         if choose == 1:
             print("******Now making a bad decision******")
             return random.choice(state.actions)
-        col, _ = Minmax_Expectimax.minimax(state.board, 4, -float('inf'), float('inf'), True)
+        col, _ = Minmax_Expectimax.minimax(state.board, 4, True)
         return col + 1
 
     def expectimax(self, state):
