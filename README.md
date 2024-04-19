@@ -1,7 +1,7 @@
 # Connect 4: Advanced AI Algorithms
 
 ## Project Overview
-This project is part of the CS5100: Foundations of Artificial Intelligence course at Northeastern University. Our team has developed an AI agent capable of playing the Connect 4 game across various difficulty levels—from easy to unbeatable—using advanced AI algorithms.
+This project is part of the CS5100: Foundations of Artificial Intelligence course at Northeastern University. Our team has developed an AI agent capable of playing the Connect 4 game across various difficulty levels—from easy to difficult—using advanced AI algorithms.
 
 ## Algorithms Implemented
 - **Alpha-Beta Pruning**: Enhances the Minimax algorithm by ignoring branches that won't affect the final decision, improving efficiency.
